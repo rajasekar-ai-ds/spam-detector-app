@@ -39,13 +39,10 @@ def normalize_text(s: str) -> str:
     if s is None:
         return ""
     s = str(s)
-    s = s.lower()
-   
+    s = s.lower()   
     s = re.sub(r'\b\d{6,}\b', ' <PHONE> ', s)
-    s = re.sub(r'\b\d+\b', ' <NUM> ', s)
-   
-    s = re.sub(r'https?://\S+|www\.\S+', ' <URL> ', s)
-   
+    s = re.sub(r'\b\d+\b', ' <NUM> ', s)   
+    s = re.sub(r'https?://\S+|www\.\S+', ' <URL> ', s)   
     s = re.sub(r'\s+', ' ', s).strip()
     return s
 
@@ -192,20 +189,23 @@ st.title("📨 AI Spam Classifier")
 st.subheader("Spam detection using ML (with option for trusted senders)")
 
 st.sidebar.header("Project & Team")
-if (BASE/"spamClassifier/logo_st.jpg").exists():
-    st.sidebar.image("spamClassifier/logo_st.jpg", use_column_width=True)
+st.sidebar.image("logo_st.jpg", use_column_width=True)
 st.sidebar.markdown("""
 **Team members**
 - Rajasekar P  
 - Saravanan S  
 - Raghav R K
 """)
+
+st.sidebar.markdown("---")
+st.sidebar.markdown("College")
+st.sidebar.image("pmist_logo.st.jpg", use_column_width=True)
 st.sidebar.markdown("---")
 st.sidebar.info("Model is built using LogisticRegression , Used some whitelist options")
 
 st.markdown("**Enter message & optional sender.** If sender is trusted (Airtel/Jio/Banks), the app is conservative. Unknown senders get stricter checks.")
 
-sender_input = st.text_input("Sender (optional — e.g., AIRTEL / JIO / BANK-ICICI)", value="")
+sender_input = st.text_input("Sender (optional — e.g., AIRTEL / JIO / SBI / ICICI)", value="")
 
 option = st.radio("Choose input type:", ["📝Enter a Message", "📁Upload a .txt file"],index=None)
 raw_text = ""
@@ -239,6 +239,7 @@ if st.button("Predict"):
             conf_text = f"{(100 - prob*100):.1f}%" if prob is not None else "N/A"
             st.markdown(f"<div style='padding:12px;border-radius:8px;background:#2ecc71;color:white'>"
                         f"<strong>✅ NOT SPAM</strong> — Confidence: {conf_text}</div>", unsafe_allow_html=True)
+
 
 
 
