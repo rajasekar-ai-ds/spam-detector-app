@@ -184,7 +184,7 @@ def decide_label_with_rules(raw_text: str, sender: str = ""):
     debug["norm_text"] = norm
     return {"label": label, "prob": prob, "debug": debug}
 
-st.set_page_config(page_title="Spam Classifier", page_icon="📨", layout="width")
+st.set_page_config(page_title="Spam Classifier", page_icon="📨", layout="center")
 st.title("📨 AI Spam Classifier")
 st.subheader("Spam detection using ML (with option for trusted senders)")
 
@@ -240,6 +240,7 @@ if st.button("Predict"):
             conf_text = f"{(100 - prob*100):.1f}%" if prob is not None else "N/A"
             st.markdown(f"<div style='padding:12px;border-radius:8px;background:#2ecc71;color:white'>"
                         f"<strong>✅ NOT SPAM</strong> — Confidence: {conf_text}</div>", unsafe_allow_html=True)
+
 
 
 
