@@ -203,7 +203,7 @@ st.sidebar.image("pmist_logo.st.jpg", use_container_width=True)
 st.sidebar.success("PMIST , Vallam")
 st.sidebar.markdown("---")
 st.sidebar.markdown("PROJECT🤖")
-st.sidebar.info("Model is built using LogisticRegression , Used some whitelist options")
+st.sidebar.info("A web app where you can check if an email/sms is spam or not , we used sender option (for trusted senders like isp, banks etc..)Model is built using Scikit-learn(LogisticRegression) and deployed as a public app using streamlit...")
 
 st.markdown("**Enter message & optional sender.** If sender is trusted (Airtel/Jio/Banks), the app is conservative. Unknown senders get stricter checks.")
 
@@ -241,6 +241,7 @@ if st.button("Predict"):
             conf_text = f"{(100 - prob*100):.1f}%" if prob is not None else "N/A"
             st.markdown(f"<div style='padding:12px;border-radius:8px;background:#2ecc71;color:white'>"
                         f"<strong>✅ NOT SPAM</strong> — Confidence: {conf_text}</div>", unsafe_allow_html=True)
+
 
 
 
