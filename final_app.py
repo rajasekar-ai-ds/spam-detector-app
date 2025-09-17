@@ -14,7 +14,8 @@ ARTIFACTS_FILE = BASE / "training_artifacts.json"
 TRUSTED_SENDERS = {
     "airtel", "jio", "vi", "vodafone", "bankicici", "bankhdfc",
     "amazon", "flipkart", "phonepe", "paytm", "google", "youtube" , "sbi" , "hdfc" , "github", "twitter",
-    "apple"
+    "apple" , "x" , "gpay" , "googlepay" , "ubi", "icici", "microsoft", "jetbrains", "whatsapp", "bsnl"
+    
 }
 
 SUSPICIOUS_KEYWORDS = [
@@ -39,12 +40,12 @@ def normalize_text(s: str) -> str:
         return ""
     s = str(s)
     s = s.lower()
-    # replace long digit sequences (phones, txns) with tokens
+   
     s = re.sub(r'\b\d{6,}\b', ' <PHONE> ', s)
     s = re.sub(r'\b\d+\b', ' <NUM> ', s)
-    # mask urls
+   
     s = re.sub(r'https?://\S+|www\.\S+', ' <URL> ', s)
-    # collapse whitespace
+   
     s = re.sub(r'\s+', ' ', s).strip()
     return s
 
@@ -76,10 +77,6 @@ def count_suspicious_keywords(text: str):
     t = text.lower()
     return sum(1 for kw in SUSPICIOUS_KEYWORDS if kw in t)
 
-BASE = Path(__file__).resolve().parent
-MODEL_FILE = BASE / "spam_clf.joblib"
-VECT_FILE = BASE / "tfidf_vectorizer.joblib"
-ARTIFACTS_FILE = BASE / "training_artifacts.json"
 
 model = None
 vectorizer = None
@@ -103,11 +100,9 @@ if not missing:
     except Exception:
         threshold_from_artifacts = TRUSTED_THRESHOLD
 else:
-    # Keep running UI but inform user; predictions won't work without artifacts
     st.warning("Model artifacts missing: " + ", ".join(missing))
     st.info("Place spam_clf.joblib, tfidf_vectorizer.joblib and training_artifacts.json in the app folder.")
 
-# -------------------- Prediction logic --------------------
 def get_spam_probability(text_norm: str):
     """Return spam probability from model (if available)."""
     if model is None or vectorizer is None:
@@ -236,9 +231,6 @@ if st.button("Predict"):
         else:
             st.warning("Sender not trusted🚫— applying stricter rules")
 
-
-
-
         if label == 1:
             conf_text = f"{prob*100:.1f}%" if prob is not None else "N/A"
             st.markdown(f"<div style='padding:12px;border-radius:8px;background:#ff4d4d;color:white'>"
@@ -247,6 +239,12 @@ if st.button("Predict"):
             conf_text = f"{(100 - prob*100):.1f}%" if prob is not None else "N/A"
             st.markdown(f"<div style='padding:12px;border-radius:8px;background:#2ecc71;color:white'>"
                         f"<strong>✅ NOT SPAM</strong> — Confidence: {conf_text}</div>", unsafe_allow_html=True)
+
+
+st.write("Thank you for using our APP")
+
+
+
 
 
 
