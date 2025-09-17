@@ -11,26 +11,6 @@ BASE = Path(__file__).resolve().parent
 MODEL_FILE = BASE / "spam_clf.joblib"
 VECT_FILE = BASE / "tfidf_vectorizer.joblib"
 ARTIFACTS_FILE = BASE / "training_artifacts.json"
-
-def download_if_missing(local_path: Path, url: str):
-    if local_path.exists():
-        return
-    try:
-        print(f"Downloading {url}...")
-        r = requests.get(url, stream=True, timeout=30)
-        r.raise_for_status()
-        with open(local_path, "wb") as f:
-            for chunk in r.iter_content(1024*128):
-                f.write(chunk)
-        print(f"Saved {local_path}")
-    except Exception as e:
-        print(f"Download failed: {e}")
-
-# Example: use your GitHub repo Releases or raw URLs
-download_if_missing(MODEL_FILE, "https://github.com/<you>/<repo>/releases/download/v1/spam_clf.joblib")
-download_if_missing(VECT_FILE,  "https://github.com/<you>/<repo>/releases/download/v1/tfidf_vectorizer.joblib")
-download_if_missing(ARTIFACTS_FILE, "https://raw.githubusercontent.com/<you>/<repo>/main/training_artifacts.json")
-
 TRUSTED_SENDERS = {
     "airtel", "jio", "vi", "vodafone", "bankicici", "bankhdfc",
     "amazon", "flipkart", "phonepe", "paytm", "google", "youtube" , "sbi" , "hdfc" , "github", "twitter",
@@ -267,6 +247,7 @@ if st.button("Predict"):
             conf_text = f"{(100 - prob*100):.1f}%" if prob is not None else "N/A"
             st.markdown(f"<div style='padding:12px;border-radius:8px;background:#2ecc71;color:white'>"
                         f"<strong>✅ NOT SPAM</strong> — Confidence: {conf_text}</div>", unsafe_allow_html=True)
+
 
 
 
