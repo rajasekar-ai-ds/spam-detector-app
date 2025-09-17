@@ -241,7 +241,6 @@ if st.button("Predict"):
                         f"<strong>✅ NOT SPAM</strong> — Confidence: {conf_text}</div>", unsafe_allow_html=True)
 
 
-st.write("Thank you for using our APP")
 
 
 
