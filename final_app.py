@@ -1,4 +1,3 @@
-
 import streamlit as st
 import joblib
 import json
@@ -14,10 +13,8 @@ ARTIFACTS_FILE = BASE / "training_artifacts.json"
 TRUSTED_SENDERS = {
     "airtel", "jio", "vi", "vodafone", "bankicici", "bankhdfc",
     "amazon", "flipkart", "phonepe", "paytm", "google", "youtube" , "sbi" , "hdfc" , "github", "twitter",
-    "apple" , "x" , "gpay" , "googlepay" , "ubi", "icici", "microsoft", "jetbrains", "whatsapp", "bsnl"
-    
+    "apple" , "x" , "gpay" , "googlepay" , "ubi", "icici", "microsoft", "jetbrains", "whatsapp", "bsnl"    
 }
-
 SUSPICIOUS_KEYWORDS = [
     "win", "won", "claim", "lottery", "prize", "click here", "card details", "$10000" , "click here to claim" ,
     "share your card", "free", "congrats", "reply yes", "you have won", "claim now",
@@ -29,10 +26,10 @@ CARD_REQUEST_PATTERNS = ["card details", "share your card", "enter your card", "
 TRUSTED_THRESHOLD = 0.50
 UNKNOWN_THRESHOLD = 0.35
 
-FORCE_SPAM_ON_KW_AND_CARD = True    # unknown sender + (keyword + card request) -> force spam
-FORCE_SPAM_ON_KW_AND_URL = True     # unknown sender + (keyword + url) -> force spam
-FORCE_SPAM_ON_MULTIPLE_KW = True    # unknown sender + >=N suspicious keywords -> force spam
-MULTI_KW_COUNT = 2                  # number of suspicious keywords to trigger multiple-kw rule
+FORCE_SPAM_ON_KW_AND_CARD = True   
+FORCE_SPAM_ON_KW_AND_URL = True     
+FORCE_SPAM_ON_MULTIPLE_KW = True   
+MULTI_KW_COUNT = 2                  
 
 def normalize_text(s: str) -> str:
     """Same normalization used during training."""
@@ -138,14 +135,11 @@ def decide_label_with_rules(raw_text: str, sender: str = ""):
         "model_prob": prob
     }
 
-    # choose base threshold
     used_threshold = threshold_from_artifacts if threshold_from_artifacts is not None else TRUSTED_THRESHOLD
     if trusted:
         used_threshold = max(used_threshold, TRUSTED_THRESHOLD)
     else:
         used_threshold = UNKNOWN_THRESHOLD
-
-    # rule: force spam for unknown senders on serious signals
     forced_spam = False
     forced_reasons = []
 
@@ -163,8 +157,6 @@ def decide_label_with_rules(raw_text: str, sender: str = ""):
         if suspicious_flag and (prob is not None and prob < 0.20):
             forced_spam = True
             forced_reasons.append("suspicious_low_model_prob")
-
-    # final decision
     if forced_spam:
         label = 1
     else:
@@ -241,6 +233,7 @@ if st.button("Predict"):
             conf_text = f"{(100 - prob*100):.1f}%" if prob is not None else "N/A"
             st.markdown(f"<div style='padding:12px;border-radius:8px;background:#2ecc71;color:white'>"
                         f"<strong>✅ NOT SPAM</strong> — Confidence: {conf_text}</div>", unsafe_allow_html=True)
+
 
 
 
