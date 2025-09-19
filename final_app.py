@@ -222,11 +222,12 @@ if st.button("Predict"):
         if label == 1:
             conf_text = f"{prob*100:.1f}%" if prob is not None else "N/A"
             st.markdown(f"<div style='padding:12px;border-radius:8px;background:#ff4d4d;color:white'>"
-                        f"<strong>🚨 SPAM</strong> — Confidence: {conf_text}</div>", unsafe_allow_html=True)
+                        f"<strong>🚨 SPAM</strong> — </div>", unsafe_allow_html=True)
         else:
             conf_text = f"{(100 - prob*100):.1f}%" if prob is not None else "N/A"
             st.markdown(f"<div style='padding:12px;border-radius:8px;background:#2ecc71;color:white'>"
-                        f"<strong>✅ NOT SPAM</strong> — Confidence: {conf_text}</div>", unsafe_allow_html=True)
+                        f"<strong>✅ NOT SPAM</strong> — </div>", unsafe_allow_html=True)
+
 
 
 
