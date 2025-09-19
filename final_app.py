@@ -33,7 +33,6 @@ FORCE_SPAM_ON_MULTIPLE_KW = True
 MULTI_KW_COUNT = 2                  
 
 def normalize_text(s: str) -> str:
-    """Same normalization used during training."""
     if s is None:
         return ""
     s = str(s)
@@ -113,12 +112,6 @@ def get_spam_probability(text_norm: str):
             return None
 
 def decide_label_with_rules(raw_text: str, sender: str = ""):
-    """
-    Return dict:
-      - label (0 ham, 1 spam)
-      - prob (model probability or None)
-      - debug (which rules fired, used threshold, etc.)
-    """
     norm = normalize_text(raw_text)
     prob = get_spam_probability(norm)
     trusted = is_sender_trusted(sender)
@@ -234,6 +227,7 @@ if st.button("Predict"):
             conf_text = f"{(100 - prob*100):.1f}%" if prob is not None else "N/A"
             st.markdown(f"<div style='padding:12px;border-radius:8px;background:#2ecc71;color:white'>"
                         f"<strong>✅ NOT SPAM</strong> — Confidence: {conf_text}</div>", unsafe_allow_html=True)
+
 
 
 
