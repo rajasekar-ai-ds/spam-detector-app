@@ -19,7 +19,7 @@ SUSPICIOUS_KEYWORDS = [
     "win", "won", "claim", "lottery", "prize", "click here", "card details", "$10000" , "click here to claim" ,
     "share your card", "free", "congrats", "reply yes", "you have won", "claim now",
     "click to claim", "claim prize", "urgent", "limited time", "act now" , "credited", "rupees" , "debited" , "won an", "iphone" , "enter the card details" , 
-    "click the link to claim" , "$5000"  , "$2000" , "$" , "for free" , "Congratulations!" , "congratulation"  , "lottery of" 
+    "click the link to claim" , "$5000"  , "$2000" , "$" , "for free" , "Congratulations!" , "congratulation"  , "lottery of" , "to claim" 
 ]
 
 CARD_REQUEST_PATTERNS = ["card details", "share your card", "enter your card", "cvv", "account number", "bank details"]
@@ -227,6 +227,7 @@ if st.button("Predict"):
             conf_text = f"{(100 - prob*100):.1f}%" if prob is not None else "N/A"
             st.markdown(f"<div style='padding:12px;border-radius:8px;background:#2ecc71;color:white'>"
                         f"<strong>✅ NOT SPAM</strong> — Confidence: {conf_text}</div>", unsafe_allow_html=True)
+
 
 
 
